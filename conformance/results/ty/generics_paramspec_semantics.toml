@@ -1,5 +1,18 @@
-conformance_automated = "Pass"
+conformant = "Partial"
+notes = "parameter specification variance not supported"
+conformance_automated = "Fail"
 errors_diff = """
+Line 151: Expected 1 errors
+Line 159: Expected 1 errors
+Line 169: Expected 1 errors
+Line 179: Expected 1 errors
+Line 155: Unexpected errors ['generics_paramspec_semantics.py:155:20: error[empty-body] Function always implicitly returns `None`, which is not assignable to return type `(**OutP@CovariantParamSpec) -> None`']
+Line 161: Unexpected errors ['generics_paramspec_semantics.py:161:7: error[invalid-paramspec] The variance and bound arguments for `ParamSpec` do not have defined semantics yet']
+Line 163: Unexpected errors ['generics_paramspec_semantics.py:163:33: error[invalid-argument-type] `ParamSpec` is not a valid argument to `Generic`']
+Line 164: Unexpected errors ['generics_paramspec_semantics.py:164:27: error[invalid-type-form] Variable of type `ParamSpecArgs` is not allowed in a type expression', 'generics_paramspec_semantics.py:164:47: error[invalid-type-form] Variable of type `ParamSpecKwargs` is not allowed in a type expression']
+Line 171: Unexpected errors ['generics_paramspec_semantics.py:171:8: error[invalid-paramspec] The variance and bound arguments for `ParamSpec` do not have defined semantics yet']
+Line 173: Unexpected errors ['generics_paramspec_semantics.py:173:29: error[invalid-argument-type] `ParamSpec` is not a valid argument to `Generic`']
+Line 175: Unexpected errors ['generics_paramspec_semantics.py:175:24: error[empty-body] Function always implicitly returns `None`, which is not assignable to return type `(...) -> Unknown`', 'generics_paramspec_semantics.py:175:33: error[invalid-type-form] Variable of type `ParamSpec` is not allowed in a type expression', 'generics_paramspec_semantics.py:175:33: error[invalid-type-form] The first argument to `Callable` must be either a list of types, ParamSpec, Concatenate, or `...`']
 """
 output = """
 generics_paramspec_semantics.py:26:4: error[positional-only-parameter-as-kwarg] Positional-only parameter 1 (`a`) passed as keyword argument
@@ -13,4 +26,19 @@ generics_paramspec_semantics.py:120:4: error[invalid-argument-type] Argument is 
 generics_paramspec_semantics.py:127:1: error[invalid-argument-type] Argument to function `expects_int_first` is incorrect: Expected `(int, /, *args: Unknown, **kwargs: Unknown) -> int`, found `def one(x: str) -> int`
 generics_paramspec_semantics.py:132:1: error[invalid-argument-type] Argument to function `expects_int_first` is incorrect: Expected `(int, /, *args: Unknown, **kwargs: Unknown) -> int`, found `def two(*, x: int) -> int`
 generics_paramspec_semantics.py:137:1: error[invalid-argument-type] Argument to function `expects_int_first` is incorrect: Expected `(int, /, *args: Unknown, **kwargs: Unknown) -> int`, found `def three(**kwargs: int) -> int`
+generics_paramspec_semantics.py:155:20: error[empty-body] Function always implicitly returns `None`, which is not assignable to return type `(**OutP@CovariantParamSpec) -> None`
+generics_paramspec_semantics.py:161:7: error[invalid-paramspec] The variance and bound arguments for `ParamSpec` do not have defined semantics yet
+generics_paramspec_semantics.py:163:33: error[invalid-argument-type] `ParamSpec` is not a valid argument to `Generic`
+generics_paramspec_semantics.py:164:27: error[invalid-type-form] Variable of type `ParamSpecArgs` is not allowed in a type expression
+generics_paramspec_semantics.py:164:47: error[invalid-type-form] Variable of type `ParamSpecKwargs` is not allowed in a type expression
+generics_paramspec_semantics.py:165:24: error[empty-body] Function always implicitly returns `None`, which is not assignable to return type `(...) -> Unknown`
+generics_paramspec_semantics.py:165:33: error[invalid-type-form] Variable of type `ParamSpec` is not allowed in a type expression
+generics_paramspec_semantics.py:165:33: error[invalid-type-form] The first argument to `Callable` must be either a list of types, ParamSpec, Concatenate, or `...`
+generics_paramspec_semantics.py:171:8: error[invalid-paramspec] The variance and bound arguments for `ParamSpec` do not have defined semantics yet
+generics_paramspec_semantics.py:173:29: error[invalid-argument-type] `ParamSpec` is not a valid argument to `Generic`
+generics_paramspec_semantics.py:174:27: error[invalid-type-form] Variable of type `ParamSpecArgs` is not allowed in a type expression
+generics_paramspec_semantics.py:174:48: error[invalid-type-form] Variable of type `ParamSpecKwargs` is not allowed in a type expression
+generics_paramspec_semantics.py:175:24: error[empty-body] Function always implicitly returns `None`, which is not assignable to return type `(...) -> Unknown`
+generics_paramspec_semantics.py:175:33: error[invalid-type-form] Variable of type `ParamSpec` is not allowed in a type expression
+generics_paramspec_semantics.py:175:33: error[invalid-type-form] The first argument to `Callable` must be either a list of types, ParamSpec, Concatenate, or `...`
 """

@@ -2729,13 +2729,12 @@ The algorithm for computing the variance of a type parameter is as follows.
 
 For each type parameter in a generic class:
 
-1. If the type parameter is variadic (``TypeVarTuple``) or a parameter
-specification (``ParamSpec``), it is always considered invariant. No further
-inference is needed.
+1. If the type parameter is variadic (``TypeVarTuple``) it is always
+considered invariant. No further inference is needed.
 
-2. If the type parameter comes from a traditional ``TypeVar`` declaration and
-is not specified as ``infer_variance`` (see below), its variance is specified
-by the ``TypeVar`` constructor call. No further inference is needed.
+2. If the type parameter comes from a traditional ``TypeVar``/``ParamSpec``
+declaration and is not specified as ``infer_variance`` (see below), its
+variance is specified by the constructor call. No further inference is needed.
 
 3. Create two specialized versions of the class. We'll refer to these as
 ``upper`` and ``lower`` specializations. In both of these specializations,

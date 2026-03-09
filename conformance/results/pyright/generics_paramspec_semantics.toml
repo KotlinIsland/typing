@@ -1,6 +1,7 @@
-conformant = "Pass"
+conformant = "Partial"
 notes = """
 Constraint solver doesn't find common type for two signatures captured by a single ParamSpec (allowed).
+parameter specification variance not supported
 """
 output = """
 generics_paramspec_semantics.py:26:6 - error: Expected 2 more positional arguments (reportCallIssue)
@@ -30,7 +31,41 @@ generics_paramspec_semantics.py:132:2 - error: Argument of type "(*, x: int) -> 
 generics_paramspec_semantics.py:137:2 - error: Argument of type "(**kwargs: int) -> int" cannot be assigned to parameter "x" of type "(int, **P@expects_int_first) -> int" in function "expects_int_first"
   Type "(**kwargs: int) -> int" is not assignable to type "(int, **P@expects_int_first) -> int"
     Function accepts too many positional parameters; expected 0 but received 1 (reportArgumentType)
+generics_paramspec_semantics.py:150:39 - error: Type "ContravariantParamSpec[(object)]" is not assignable to declared type "ContravariantParamSpec[(int)]"
+  "ContravariantParamSpec[(object)]" is not assignable to "ContravariantParamSpec[(int)]"
+    Type parameter "InP@ContravariantParamSpec" is invariant, but "(object)" is not the same as "(int)" (reportAssignmentType)
+generics_paramspec_semantics.py:151:10 - error: Type "ContravariantParamSpec[(int)]" is not assignable to declared type "ContravariantParamSpec[(object)]"
+  "ContravariantParamSpec[(int)]" is not assignable to "ContravariantParamSpec[(object)]"
+    Type parameter "InP@ContravariantParamSpec" is invariant, but "(int)" is not the same as "(object)" (reportAssignmentType)
+generics_paramspec_semantics.py:158:39 - error: Type "CovariantParamSpec[(int)]" is not assignable to declared type "CovariantParamSpec[(object)]"
+  "CovariantParamSpec[(int)]" is not assignable to "CovariantParamSpec[(object)]"
+    Type parameter "OutP@CovariantParamSpec" is invariant, but "(int)" is not the same as "(object)" (reportAssignmentType)
+generics_paramspec_semantics.py:159:11 - error: Type "CovariantParamSpec[(object)]" is not assignable to declared type "CovariantParamSpec[(int)]"
+  "CovariantParamSpec[(object)]" is not assignable to "CovariantParamSpec[(int)]"
+    Type parameter "OutP@CovariantParamSpec" is invariant, but "(object)" is not the same as "(int)" (reportAssignmentType)
+generics_paramspec_semantics.py:161:24 - error: "contravariant" is unknown parameter to ParamSpec (reportGeneralTypeIssues)
+generics_paramspec_semantics.py:168:46 - error: Type "ContravariantParamSpecOld[(object)]" is not assignable to declared type "ContravariantParamSpecOld[(int)]"
+  "ContravariantParamSpecOld[(object)]" is not assignable to "ContravariantParamSpecOld[(int)]"
+    Type parameter "InP@ContravariantParamSpecOld" is invariant, but "(object)" is not the same as "(int)" (reportAssignmentType)
+generics_paramspec_semantics.py:169:14 - error: Type "ContravariantParamSpecOld[(int)]" is not assignable to declared type "ContravariantParamSpecOld[(object)]"
+  "ContravariantParamSpecOld[(int)]" is not assignable to "ContravariantParamSpecOld[(object)]"
+    Type parameter "InP@ContravariantParamSpecOld" is invariant, but "(int)" is not the same as "(object)" (reportAssignmentType)
+generics_paramspec_semantics.py:171:26 - error: "covariant" is unknown parameter to ParamSpec (reportGeneralTypeIssues)
+generics_paramspec_semantics.py:178:50 - error: Type "ContravariantParamSpecOld[(int)]" is not assignable to declared type "ContravariantParamSpecOld[(object)]"
+  "ContravariantParamSpecOld[(int)]" is not assignable to "ContravariantParamSpecOld[(object)]"
+    Type parameter "InP@ContravariantParamSpecOld" is invariant, but "(int)" is not the same as "(object)" (reportAssignmentType)
+generics_paramspec_semantics.py:179:15 - error: Type "ContravariantParamSpecOld[(object)]" is not assignable to declared type "ContravariantParamSpecOld[(int)]"
+  "ContravariantParamSpecOld[(object)]" is not assignable to "ContravariantParamSpecOld[(int)]"
+    Type parameter "InP@ContravariantParamSpecOld" is invariant, but "(object)" is not the same as "(int)" (reportAssignmentType)
 """
-conformance_automated = "Pass"
+conformance_automated = "Fail"
 errors_diff = """
+Line 165: Expected 1 errors
+Line 174: Expected 1 errors
+Line 150: Unexpected errors ['generics_paramspec_semantics.py:150:39 - error: Type "ContravariantParamSpec[(object)]" is not assignable to declared type "ContravariantParamSpec[(int)]"']
+Line 158: Unexpected errors ['generics_paramspec_semantics.py:158:39 - error: Type "CovariantParamSpec[(int)]" is not assignable to declared type "CovariantParamSpec[(object)]"']
+Line 161: Unexpected errors ['generics_paramspec_semantics.py:161:24 - error: "contravariant" is unknown parameter to ParamSpec (reportGeneralTypeIssues)']
+Line 168: Unexpected errors ['generics_paramspec_semantics.py:168:46 - error: Type "ContravariantParamSpecOld[(object)]" is not assignable to declared type "ContravariantParamSpecOld[(int)]"']
+Line 171: Unexpected errors ['generics_paramspec_semantics.py:171:26 - error: "covariant" is unknown parameter to ParamSpec (reportGeneralTypeIssues)']
+Line 178: Unexpected errors ['generics_paramspec_semantics.py:178:50 - error: Type "ContravariantParamSpecOld[(int)]" is not assignable to declared type "ContravariantParamSpecOld[(object)]"']
 """

@@ -142,3 +142,38 @@ def three(**kwargs: int) -> int:
 @expects_int_first  # OK
 def four(*args: int) -> int:
     raise NotImplementedError
+
+class ContravariantParamSpec[**InP]:
+    def f(self, *args: InP.args, **kwargs: InP.kwargs): ...
+
+in_obj: ContravariantParamSpec[object] = ContravariantParamSpec()
+in_int: ContravariantParamSpec[int] = in_obj  # OK
+in_obj = in_int  # E
+
+
+class CovariantParamSpec[**OutP]:
+    def f(self) -> Callable[OutP, None]: ...
+
+out_int: CovariantParamSpec[int] = CovariantParamSpec()
+out_obj: CovariantParamSpec[object] = out_int  # OK
+out_int = out_obj  # E
+
+InP = ParamSpec("InP", contravariant=True)
+
+class ContravariantParamSpecOld(Generic[InP]):
+    def in_f(self, *args: InP.args, **kwargs: InP.kwargs): ...  # OK
+    def out_f(self) -> Callable[InP, None]: ...  # E
+
+in_obj_old: ContravariantParamSpecOld[object] = ContravariantParamSpecOld()
+in_int_old: ContravariantParamSpecOld[int] = in_obj_old  # OK
+in_obj_old = in_int_old  # E
+
+OutP = ParamSpec("OutP", covariant=True)
+
+class CovariantParamSpecOld(Generic[OutP]):
+    def in_f(self, *args: OutP.args, **kwargs: OutP.kwargs): ...  # E
+    def out_f(self) -> Callable[OutP, None]: ...  # OK
+
+out_int_old: ContravariantParamSpecOld[int] = ContravariantParamSpecOld()
+out_obj_old: ContravariantParamSpecOld[object] = out_int_old  # OK
+out_int_old = out_obj_old  # E
